@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rock Paper Scissors — RPS Clash</title>
+
+  <!-- Fonts: Bungee (arcade display) + Outfit (clean body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Decorative background grid lines -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <!-- CRT scanline texture -->
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <div class="wrapper">
+
+    <!-- ══ HEADER ══ -->
+    <header class="site-header">
+      <div class="title-group">
+        <span class="title-icon">✊</span>
+        <h1 class="site-title">RPS<span class="title-accent">CLASH</span></h1>
+        <span class="title-icon">✌️</span>
+      </div>
+      <p class="site-sub">Rock · Paper · Scissors</p>
+    </header>
+
+    <!-- ══ MODE SELECTOR ══ -->
+    <div class="mode-bar">
+      <button class="mode-btn active" id="btnPvC" onclick="setMode('pvc')">
+        🤖 VS Computer
+      </button>
+      <button class="mode-btn" id="btnPvP" onclick="setMode('pvp')">
+        👥 VS Player 2
+      </button>
+    </div>
+
+    <!-- ══ PvP NAME INPUTS (hidden in PvC) ══ -->
+    <div class="name-row" id="nameRow" style="display:none;">
+      <input class="name-input" id="p1Name" type="text" maxlength="12"
+             placeholder="Player 1" value="Player 1" oninput="updateNames()" />
+      <span class="name-vs">VS</span>
+      <input class="name-input" id="p2Name" type="text" maxlength="12"
+             placeholder="Player 2" value="Player 2" oninput="updateNames()" />
+    </div>
+
+    <!-- ══ SCOREBOARD ══ -->
+    <div class="scoreboard">
+      <div class="score-block" id="scoreBlockP1">
+        <span class="score-name" id="labelP1">YOU</span>
+        <span class="score-number" id="scoreP1">0</span>
+      </div>
+      <div class="score-middle">
+        <span class="score-draw-label">DRAWS</span>
+        <span class="score-draw-number" id="scoreDraw">0</span>
+      </div>
+      <div class="score-block score-block--right" id="scoreBlockP2">
+        <span class="score-name" id="labelP2">CPU</span>
+        <span class="score-number" id="scoreP2">0</span>
+      </div>
+    </div>
+
+    <!-- ══ ARENA (shows the two chosen hands) ══ -->
+    <div class="arena">
+      <div class="arena-side">
+        <span class="arena-label" id="arenaLabelP1">YOU</span>
+        <div class="arena-hand" id="handP1">❓</div>
+      </div>
+
+      <div class="arena-center">
+        <div class="vs-badge">VS</div>
+        <div class="result-ribbon" id="resultRibbon" style="visibility:hidden;"></div>
+      </div>
+
+      <div class="arena-side arena-side--flip">
+        <span class="arena-label" id="arenaLabelP2">CPU</span>
+        <div class="arena-hand" id="handP2">❓</div>
+      </div>
+    </div>
+
+    <!-- ══ PLAYER 1 CHOICE BUTTONS ══ -->
+    <div class="choice-section" id="p1Section">
+      <p class="choice-prompt" id="p1Prompt">Choose your weapon:</p>
+      <div class="choice-row">
+        <button class="choice-btn" onclick="handleChoice('rock','p1')" title="Rock">
+          <span class="choice-emoji">✊</span>
+          <span class="choice-label">Rock</span>
+        </button>
+        <button class="choice-btn" onclick="handleChoice('paper','p1')" title="Paper">
+          <span class="choice-emoji">🖐️</span>
+          <span class="choice-label">Paper</span>
+        </button>
+        <button class="choice-btn" onclick="handleChoice('scissors','p1')" title="Scissors">
+          <span class="choice-emoji">✌️</span>
+          <span class="choice-label">Scissors</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ PLAYER 2 CHOICE BUTTONS (PvP only) ══ -->
+    <div class="choice-section" id="p2Section" style="display:none;">
+      <p class="choice-prompt" id="p2Prompt">Player 2 — choose:</p>
+      <div class="choice-row">
+        <button class="choice-btn choice-btn--p2" onclick="handleChoice('rock','p2')" title="Rock">
+          <span class="choice-emoji">✊</span>
+          <span class="choice-label">Rock</span>
+        </button>
+        <button class="choice-btn choice-btn--p2" onclick="handleChoice('paper','p2')" title="Paper">
+          <span class="choice-emoji">🖐️</span>
+          <span class="choice-label">Paper</span>
+        </button>
+        <button class="choice-btn choice-btn--p2" onclick="handleChoice('scissors','p2')" title="Scissors">
+          <span class="choice-emoji">✌️</span>
+          <span class="choice-label">Scissors</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ RESET ══ -->
+    <div class="action-row">
+      <button class="btn-reset" onclick="resetGame()">🔄 Reset Game</button>
+    </div>
+
+    <!-- ══ ROUND HISTORY ══ -->
+    <section class="history-section" id="historySection" style="display:none;">
+      <h2 class="history-title">📜 Round History</h2>
+      <div class="history-list" id="historyList"></div>
+    </section>
+
+  </div><!-- /wrapper -->
+
+  <!-- Big flash result overlay -->
+  <div class="result-overlay" id="resultOverlay" aria-live="assertive"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

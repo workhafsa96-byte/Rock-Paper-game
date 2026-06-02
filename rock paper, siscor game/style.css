@@ -1,0 +1,682 @@
+/* ═══════════════════════════════════════════════════
+   RPS CLASH — style.css
+   Aesthetic: Retro Neon Arcade
+   Fonts: Bungee (display) · Outfit (body)
+════════════════════════════════════════════════════ */
+
+/* ── 1. CUSTOM PROPERTIES ── */
+:root {
+  --bg:           #080b14;
+  --surface:      #0e1220;
+  --surface2:     #141829;
+  --border:       rgba(255,255,255,0.07);
+  --border-glow:  rgba(0,255,200,0.25);
+
+  --neon-cyan:    #00ffe1;
+  --neon-pink:    #ff2d78;
+  --neon-yellow:  #ffe033;
+  --neon-green:   #39ff88;
+  --neon-orange:  #ff7b39;
+
+  --p1-color:     var(--neon-cyan);
+  --p2-color:     var(--neon-pink);
+
+  --text-bright:  #eef2ff;
+  --text-mid:     #8892b0;
+  --text-dim:     #445069;
+
+  --radius-lg:    20px;
+  --radius-md:    14px;
+  --radius-sm:    10px;
+  --radius-pill:  100px;
+
+  --shadow-cyan:  0 0 24px rgba(0,255,225,0.35);
+  --shadow-pink:  0 0 24px rgba(255,45,120,0.35);
+  --shadow-card:  0 8px 40px rgba(0,0,0,0.6);
+
+  --trans:        0.25s cubic-bezier(0.4,0,0.2,1);
+  --trans-bounce: 0.4s cubic-bezier(0.34,1.56,0.64,1);
+
+  --font-display: 'Bungee', cursive;
+  --font-body:    'Outfit', sans-serif;
+}
+
+/* ── 2. RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-bright);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── 3. BACKGROUND EFFECTS ── */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,255,225,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,225,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.scanlines {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.15) 2px,
+    rgba(0,0,0,0.15) 4px
+  );
+}
+
+/* ── 4. WRAPPER ── */
+.wrapper {
+  position: relative; z-index: 1;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+/* ── 5. HEADER ── */
+.site-header { text-align: center; }
+
+.title-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.title-icon { font-size: 2rem; }
+
+.site-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  letter-spacing: 2px;
+  color: var(--text-bright);
+  text-shadow: 0 0 30px rgba(0,255,225,0.5);
+  line-height: 1;
+}
+
+.title-accent {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 20px var(--neon-cyan), 0 0 50px rgba(0,255,225,0.4);
+}
+
+.site-sub {
+  margin-top: 6px;
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+}
+
+/* ── 6. MODE BAR ── */
+.mode-bar {
+  display: flex;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 6px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.mode-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+  white-space: nowrap;
+}
+
+.mode-btn.active {
+  background: var(--neon-cyan);
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0,255,225,0.4);
+}
+
+.mode-btn:not(.active):hover {
+  color: var(--neon-cyan);
+}
+
+/* ── 7. NAME INPUTS (PvP) ── */
+.name-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.name-input {
+  flex: 1; min-width: 120px;
+  padding: 10px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-bright);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  outline: none;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+.name-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 14px rgba(0,255,225,0.2);
+}
+
+.name-vs {
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--text-dim);
+}
+
+/* ── 8. SCOREBOARD ── */
+.scoreboard {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-card);
+}
+
+.score-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 12px;
+  gap: 4px;
+  position: relative;
+  transition: background var(--trans);
+}
+
+.score-block::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 12px; right: 12px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--p1-color);
+  box-shadow: 0 0 10px var(--p1-color);
+  opacity: 0;
+  transition: opacity var(--trans);
+}
+
+.score-block--right::after { background: var(--p2-color); box-shadow: 0 0 10px var(--p2-color); }
+
+.score-block.leading::after { opacity: 1; }
+
+.score-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--p1-color);
+}
+
+.score-block--right .score-name { color: var(--p2-color); }
+
+.score-number {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  color: var(--text-bright);
+  line-height: 1;
+  transition: transform var(--trans-bounce);
+}
+
+.score-number.bump {
+  animation: scoreBump 0.4s var(--trans-bounce);
+}
+
+.score-middle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 16px;
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  gap: 4px;
+  min-width: 72px;
+}
+
+.score-draw-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.score-draw-number {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--text-mid);
+}
+
+/* ── 9. ARENA ── */
+.arena {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  min-height: 160px;
+}
+
+.arena-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, rgba(0,255,225,0.04) 0%, transparent 60%);
+}
+
+.arena-side--flip {
+  background: linear-gradient(225deg, rgba(255,45,120,0.06) 0%, transparent 60%);
+}
+
+.arena-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--p1-color);
+}
+
+.arena-side--flip .arena-label { color: var(--p2-color); }
+
+.arena-hand {
+  font-size: 3.5rem;
+  line-height: 1;
+  transition: transform var(--trans-bounce);
+  transform-origin: center bottom;
+}
+
+/* mirror the right hand emoji */
+.arena-side--flip .arena-hand {
+  transform: scaleX(-1);
+}
+
+.arena-hand.shake {
+  animation: handShake 0.5s ease;
+}
+
+.arena-hand.reveal {
+  animation: handReveal 0.45s var(--trans-bounce) forwards;
+}
+
+.arena-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
+.vs-badge {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+}
+
+.result-ribbon {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  text-align: center;
+  white-space: nowrap;
+  max-width: 90px;
+  background: var(--neon-cyan);
+  color: var(--bg);
+  box-shadow: 0 0 14px rgba(0,255,225,0.5);
+  animation: ribbonPop 0.4s var(--trans-bounce) forwards;
+}
+
+.result-ribbon.draw-ribbon {
+  background: var(--neon-yellow);
+  color: var(--bg);
+  box-shadow: 0 0 14px rgba(255,224,51,0.5);
+}
+
+.result-ribbon.p2-ribbon {
+  background: var(--neon-pink);
+  box-shadow: 0 0 14px rgba(255,45,120,0.5);
+}
+
+/* ── 10. CHOICE BUTTONS ── */
+.choice-section {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.choice-prompt {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 14px;
+}
+
+.choice-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.choice-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 24px;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-bright);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--trans-bounce);
+  position: relative;
+  overflow: hidden;
+  min-width: 110px;
+}
+
+/* Neon top-edge glow line on hover */
+.choice-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--p1-color);
+  transform: scaleX(0);
+  transition: transform var(--trans);
+}
+
+.choice-btn:hover::before,
+.choice-btn:focus-visible::before { transform: scaleX(1); }
+
+.choice-btn:hover, .choice-btn:focus-visible {
+  border-color: var(--p1-color);
+  box-shadow: 0 0 22px rgba(0,255,225,0.25), 0 8px 24px rgba(0,0,0,0.4);
+  transform: translateY(-5px) scale(1.04);
+  outline: none;
+}
+
+.choice-btn:active { transform: translateY(-2px) scale(1.01); }
+
+/* Player 2 buttons use pink accent */
+.choice-btn--p2::before { background: var(--p2-color); }
+.choice-btn--p2:hover, .choice-btn--p2:focus-visible {
+  border-color: var(--p2-color);
+  box-shadow: 0 0 22px rgba(255,45,120,0.25), 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.choice-emoji { font-size: 2.4rem; line-height: 1; pointer-events: none; }
+.choice-label {
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-mid);
+  pointer-events: none;
+}
+
+/* Disabled state while waiting for other player or animation */
+.choice-btn:disabled {
+  opacity: 0.35; pointer-events: none;
+  transform: none;
+}
+
+/* ── 11. ACTION ROW ── */
+.action-row { display: flex; justify-content: center; }
+
+.btn-reset {
+  padding: 12px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface2);
+  color: var(--text-mid);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans);
+  letter-spacing: 1px;
+}
+
+.btn-reset:hover {
+  border-color: var(--neon-orange);
+  color: var(--neon-orange);
+  box-shadow: 0 0 16px rgba(255,123,57,0.25);
+}
+
+/* ── 12. HISTORY ── */
+.history-section { width: 100%; }
+
+.history-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--text-mid);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom scrollbar */
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-track { background: transparent; }
+.history-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  animation: fadeSlideIn 0.35s ease forwards;
+  opacity: 0;
+}
+
+.history-round {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-dim);
+  min-width: 28px;
+}
+
+.history-choices {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-mid);
+  font-size: 13px;
+}
+
+.history-choices .em { font-size: 1.2rem; }
+
+.history-result {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.res-p1   { background: rgba(0,255,225,0.12);  color: var(--neon-cyan); }
+.res-p2   { background: rgba(255,45,120,0.12); color: var(--neon-pink); }
+.res-draw { background: rgba(255,224,51,0.12); color: var(--neon-yellow); }
+
+/* ── 13. RESULT OVERLAY (big flash) ── */
+.result-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 10vw, 5rem);
+  letter-spacing: 4px;
+  color: #fff;
+  text-align: center;
+  opacity: 0;
+  text-shadow: 0 0 40px currentColor;
+}
+
+.result-overlay.show {
+  animation: overlayFlash 1.2s ease forwards;
+}
+
+/* ── 14. WAITING STATE (PvP: after P1 picks) ── */
+.waiting-msg {
+  padding: 16px;
+  text-align: center;
+  background: var(--surface);
+  border: 1px dashed var(--border-glow);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--neon-cyan);
+  letter-spacing: 1px;
+  animation: pulse 1.4s ease infinite;
+}
+
+/* ── 15. KEYFRAMES ── */
+@keyframes scoreBump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+@keyframes handShake {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  20%       { transform: translateY(-8px) rotate(-8deg); }
+  40%       { transform: translateY(4px) rotate(6deg); }
+  60%       { transform: translateY(-6px) rotate(-4deg); }
+  80%       { transform: translateY(3px) rotate(3deg); }
+}
+
+/* Right-hand shake needs scaleX(-1) preserved */
+.arena-side--flip .arena-hand.shake {
+  animation: handShakeFlip 0.5s ease;
+}
+
+@keyframes handShakeFlip {
+  0%, 100% { transform: scaleX(-1) translateY(0) rotate(0deg); }
+  20%       { transform: scaleX(-1) translateY(-8px) rotate(8deg); }
+  40%       { transform: scaleX(-1) translateY(4px) rotate(-6deg); }
+  60%       { transform: scaleX(-1) translateY(-6px) rotate(4deg); }
+  80%       { transform: scaleX(-1) translateY(3px) rotate(-3deg); }
+}
+
+@keyframes handReveal {
+  0%   { transform: scale(0.4) rotate(-20deg); opacity: 0; }
+  70%  { transform: scale(1.15) rotate(3deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes handRevealFlip {
+  0%   { transform: scaleX(-1) scale(0.4) rotate(20deg); opacity: 0; }
+  70%  { transform: scaleX(-1) scale(1.15) rotate(-3deg); opacity: 1; }
+  100% { transform: scaleX(-1) scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Override reveal animation for flipped side */
+.arena-side--flip .arena-hand.reveal {
+  animation: handRevealFlip 0.45s var(--trans-bounce) forwards;
+}
+
+@keyframes ribbonPop {
+  0%   { transform: scale(0); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes overlayFlash {
+  0%   { opacity: 0;   transform: scale(0.5); }
+  15%  { opacity: 1;   transform: scale(1.1); }
+  35%  { opacity: 0.9; transform: scale(1); }
+  80%  { opacity: 0.6; }
+  100% { opacity: 0;   transform: scale(1.05); }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* ── 16. RESPONSIVE ── */
+@media (max-width: 520px) {
+  .wrapper { padding: 20px 14px 50px; gap: 18px; }
+
+  .arena { min-height: 130px; }
+  .arena-hand { font-size: 2.8rem; }
+  .arena-side { padding: 16px 10px; }
+  .arena-center { padding: 0 4px; }
+
+  .choice-btn { min-width: 90px; padding: 16px 18px; }
+  .choice-emoji { font-size: 2rem; }
+
+  .scoreboard { max-width: 100%; }
+  .score-number { font-size: 2.2rem; }
+}
+
+@media (max-width: 360px) {
+  .choice-row { gap: 10px; }
+  .choice-btn { min-width: 80px; padding: 14px 12px; }
+}
